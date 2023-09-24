@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.ByteArrayInputStream;
 
@@ -22,10 +23,10 @@ public class PdfController {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    @GetMapping("/pdf")
-    public ResponseEntity<Resource> showPDF() {
+    @GetMapping("/pdf/{id}")
+    public ResponseEntity<Resource> showPDF(@PathVariable(required = true) Long id) {
         try {
-            Recibos_PDF boletin = boletinesPDFReporitorio.findById(34L).get();
+            Recibos_PDF boletin = boletinesPDFReporitorio.findById(id).get();
             if (boletin != null) {
                 byte[] pdfBytes = boletin.getBoletin_PDF();
                 if (pdfBytes != null && pdfBytes.length > 0) {
