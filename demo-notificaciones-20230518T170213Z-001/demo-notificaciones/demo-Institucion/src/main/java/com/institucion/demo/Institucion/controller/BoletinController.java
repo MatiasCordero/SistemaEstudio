@@ -48,7 +48,7 @@ public class BoletinController {
         try {
             connection = dataSource.getConnection();
 
-            String consultaSQL = "SELECT nro_recibo, cuil, codigo_unico, aux_centro_liq FROM auditoria_recibo_online WHERE pdf = 'N'";
+            String consultaSQL = "SELECT id, nro_recibo, cuil, codigo_unico, aux_centro_liq FROM auditoria_recibo_online WHERE pdf = 'N'";
 
             PreparedStatement preparedStatement = connection.prepareStatement(consultaSQL);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -60,6 +60,7 @@ public class BoletinController {
                     String cuil = resultSet.getString("cuil");
                     String codigoUnico = resultSet.getString("codigo_unico");
                     String auxCentroLiq = resultSet.getString("aux_centro_liq");
+                    Long auditoriaId = resultSet.getLong("id");
 
                     System.out.println(nroRecibo);
                     System.out.println(cuil);
@@ -83,6 +84,7 @@ public class BoletinController {
                     // Crear una instancia de Recibos_PDF y guardar el PDF en la base de datos
                     Recibos_PDF recibosPdf = new Recibos_PDF();
                     recibosPdf.setBoletin_PDF(pdfBytes);
+                    recibosPdf.setAuditoria_id(auditoriaId);
 
                     boletinPDFService.guardarBoletinPDF(recibosPdf); // Guardar el boletín PDF en la base de datos
                 } while (resultSet.next()); // Continúa procesando las filas restantes si las hay

@@ -8,10 +8,20 @@ public class Recibos_PDF {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long auditoria_id;
+
     @Lob
     private byte[] Boletin_PDF;
 
     public Recibos_PDF() {
+    }
+
+    public Long getAuditoria_id() {
+        return auditoria_id;
+    }
+
+    public void setAuditoria_id(Long auditoria_id) {
+        this.auditoria_id = auditoria_id;
     }
 
     public Long getId() {
